@@ -1,5 +1,4 @@
 package com.driver;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,17 +8,13 @@ public class Order {
     private int deliveryTime;
 
     public Order(String id, String deliveryTime) {
+        this.id=id;
         // The deliveryTime has to converted from string to int and then stored in the attribute
-        //deliveryTime  = HH*60 + MM
-        this.id = id;
-        this.deliveryTime = convertDeliveryTime(deliveryTime);
-    }
+        int HH = Integer.parseInt(deliveryTime.substring(0,2));
+        int MM = Integer.parseInt(deliveryTime.substring(3));
 
-    public String getId() {
-        return id;
+        this.deliveryTime  = HH*60 + MM;
     }
-
-    public int getDeliveryTime() {return deliveryTime;}
 
     public void setId(String id) {
         this.id = id;
@@ -29,30 +24,15 @@ public class Order {
         this.deliveryTime = deliveryTime;
     }
 
-    public void setDeliveryTime(String deliveryTime) {
-        this.deliveryTime = convertDeliveryTime(deliveryTime);
+    public static int getDeliveryTimeInt(String deliveryTime) {
+        List<String> l = Arrays.asList(deliveryTime.split(":"));
+        int totalTime = (Integer.parseInt(l.get(0)) *60) + Integer.parseInt(l.get(1));
+        return totalTime;
     }
 
-    public static int convertDeliveryTime(String deliveryTime) {
-        List<String> list = Arrays.asList(deliveryTime.split(" "));
-        int HH = Integer.parseInt(list.get(0));
-        int MM = Integer.parseInt(list.get(1));
-        return HH * 60 + MM;
+    public String getId() {
+        return id;
     }
 
-    public static String convertDeliveryTime(int deliveryTime) {
-        int HH = deliveryTime / 60;
-        int MM = deliveryTime % 60;
-
-        String hh = String.valueOf(HH);
-        String mm = String.valueOf(MM);
-
-        if(hh.length() == 1) {
-            hh = '0' + hh;
-        }
-        if(mm.length() == 1) {
-            mm = '0' + mm;
-        }
-        return hh + ":" + mm;
-    }
+    public int getDeliveryTime() {return deliveryTime;}
 }
